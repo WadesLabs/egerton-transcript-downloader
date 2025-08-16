@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Egerton PDF Saver</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; padding: 14px; width: 320px; color: #0f172a; }
+    .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    h1 { font-size: 16px; margin: 0; }
+    p.desc { font-size: 12px; color: #334155; margin: 8px 0 14px; }
+    .card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; margin-bottom: 12px; }
+    .row { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+    button.primary {
+      background: #1f6feb; color: #fff; border: none; border-radius: 8px; padding: 10px 12px; font-weight: 600; cursor: pointer; width: 100%;
+    }
+    label.switch { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: #0f172a; }
+    input[type="checkbox"] { width: 16px; height: 16px; }
+    .credits { font-size: 11px; color: #475569; text-align: center; margin-top: 10px; }
+    a { color: #1f6feb; text-decoration: none; }
+    .mini { font-size: 11px; color: #64748b; }
+  </style>
+</head>
+<body>
+  <div class="brand">
+    <div>
+      <h1>Egerton PDF Saver</h1>
+      <div class="mini">by Wades Innovations</div>
+    </div>
+  </div>
+
+  <p class="desc">Created by Wades (Anome2002). Download PDFs such as transcripts from the Egerton Student Portal easily.</p>
+
+  <div class="card">
+    <button id="btnDownload" class="primary">Download current PDF</button>
+    <div class="row">
+      <label class="switch">
+        <input id="autoCapture" type="checkbox">
+        Auto capture and download when a PDF appears
+      </label>
+      <a id="openOptions" href="#">Settings</a>
+    </div>
+  </div>
+
+  <div class="credits">Wades (Anome2002) · Wades Innovations</div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "Egerton PDF Saver by Wades Innovations",
+  "version": "1.0.0",
+  "description": "Created by Wades (Anome2002) from Wades Innovations. Download PDFs such as transcripts from the Egerton Student Portal easily.",
+  "permissions": [
+    "downloads",
+    "scripting",
+    "activeTab",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://studentportal.egerton.ac.ke/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Egerton PDF Saver",
+    "default_popup": "popup.html"
+  },
+  "options_page": "options.html",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://studentportal.egerton.ac.ke/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "inject.js"
+      ],
+      "matches": [
+        "https://studentportal.egerton.ac.ke/*"
+      ]
+    }
+  ]
+}

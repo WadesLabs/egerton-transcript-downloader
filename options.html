@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Egerton PDF Saver Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 16px; color: #0f172a; max-width: 720px; }
+    h1 { font-size: 20px; margin: 0 0 6px; }
+    .mini { font-size: 12px; color: #64748b; margin-bottom: 18px; }
+    .field { margin-bottom: 16px; }
+    label { font-weight: 600; display: block; margin-bottom: 6px; }
+    input[type="text"] { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; }
+    .help { font-size: 12px; color: #475569; margin-top: 6px; }
+    .row { display: flex; align-items: center; gap: 12px; }
+    button.save {
+      background: #1f6feb; color: #fff; border: none; border-radius: 8px; padding: 10px 14px; font-weight: 600; cursor: pointer;
+    }
+    .credits { font-size: 12px; color: #475569; margin-top: 20px; }
+    code { background: #f1f5f9; padding: 2px 6px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h1>Egerton PDF Saver settings</h1>
+  <div class="mini">by Wades Innovations</div>
+
+  <div class="field">
+    <label for="pattern">Filename pattern</label>
+    <input id="pattern" type="text" placeholder="{doctype}-{name}-{yyyy}{mm}{dd}-{time}.pdf">
+    <div class="help">
+      Supported placeholders: <code>{doctype}</code> <code>{name}</code> <code>{yyyy}</code> <code>{mm}</code> <code>{dd}</code> <code>{time}</code>
+      <div id="preview" class="help"></div>
+    </div>
+  </div>
+
+  <div class="field row">
+    <label><input id="auto" type="checkbox"> Auto capture and download when a PDF appears</label>
+  </div>
+
+  <button id="save" class="save">Save</button>
+
+  <div class="credits">Created by Wades (Anome2002), Wades Innovations.</div>
+
+  <script>
+    const DEFAULT_PATTERN = "{doctype}-{name}-{yyyy}{mm}{dd}-{time}.pdf";
+
+    function fmtPreview(pat) {
+      const now = new Date();
+      const yyyy = now.getFullYear().toString();
+      const mm = String(now.getMonth() + 1).padStart(2, "0");
+      const dd = String(now.getDate()).padStart(2, "0");
+      const hh = String(now.getHours()).toString().padStart(2, "0");
+      const mi = String(now.getMinutes()).toString().padStart(2, "0");
+      const ss = String(now.getSeconds()).toString().padStart(2, "0");
+      return (pat || DEFAULT_PATTERN)
+        .replace(/\{doctype\}/g, "transcript")
+        .replace(/\{name\}/g, "student")
+        .replace(/\{yyyy\}/g, yyyy)
+        .replace(/\{mm\}/g, mm)
+        .replace(/\{dd\}/g, dd)
+        .replace(/\{time\}/g, `${hh}${mi}${ss}`);
+    }
+
+    function refreshPreview() {
+      const p = document.getElementById("pattern").value || DEFAULT_PATTERN;
+      document.getElementById("preview").textContent = "Preview: " + fmtPreview(p);
+    }
+
+    document.getElementById("pattern").addEventListener("input", refreshPreview);
+
+    chrome.storage.sync.get("settings", ({ settings }) => {
+      settings = settings || {};
+      document.getElementById("pattern").value = settings.filenamePattern || DEFAULT_PATTERN;
+      document.getElementById("auto").checked = !!settings.autoCapture;
+      refreshPreview();
+    });
+
+    document.getElementById("save").addEventListener("click", () => {
+      const filenamePattern = document.getElementById("pattern").value || DEFAULT_PATTERN;
+      const autoCapture = document.getElementById("auto").checked;
+      chrome.storage.sync.set({ settings: { filenamePattern, autoCapture } }, () => {
+        alert("Saved");
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          if (tabs[0]?.id) chrome.tabs.sendMessage(tabs[0].id, { type: "refresh-settings" });
+        });
+      });
+    });
+  </script>
+</body>
+</html>
