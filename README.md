@@ -14,7 +14,7 @@ No more struggling with hidden buttons or print hacks — just click **Download 
 ## 🛠 How to Install (Step by Step)
 
 1. **Download the Extension**  
-   - Unzip the provided file (it should look like `egerton-pdf-saver.zip`).  
+   - Unzip the provided file (it should look like `egerton-pdf-saver.zip`). Download from this link (https://github.com/WadesLabs/egerton-transcript-downloader/releases/download/release/egerton-pdf-saver.zip)  
    - You’ll now have a folder called `egerton-pdf-saver`.
 
 2. **Open Chrome Extensions Page**  
